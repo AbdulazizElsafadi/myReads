@@ -34,7 +34,7 @@ const BookList = ({ bookShelf }) => {
     }
 
     useEffect(() => {
-        fetchAllBooks();
+       fetchAllBooks();
     }, []);
 
     console.log('books global:', books);

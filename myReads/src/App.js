@@ -12,6 +12,7 @@ function App() {
             <a
               className="close-search"
               onClick={() => setShowSearchpage(!showSearchPage)}
+              href
             >
               Close
             </a>
