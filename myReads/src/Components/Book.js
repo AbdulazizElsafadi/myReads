@@ -1,7 +1,7 @@
 import ShelfChanger from "./ShelfChanger";
 
 // This functional component renders a book...
-const Book = ({ Book, handleShelfChanger }) => {
+const Book = ({ Book, handleShelfChanger, books }) => {
 
     return (
         <div className="book">
@@ -16,7 +16,7 @@ const Book = ({ Book, handleShelfChanger }) => {
                     }}
 
                 ></div>
-                <ShelfChanger Book={Book} handleShelfChanger={handleShelfChanger}/>
+                <ShelfChanger Book={Book} handleShelfChanger={handleShelfChanger} Books={books}/>
             </div>
             <div className="book-title">{Book.title}</div>
 

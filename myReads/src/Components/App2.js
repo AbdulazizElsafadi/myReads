@@ -1,21 +1,35 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { getAll, update } from './BooksAPI'
+import { useEffect, useState } from 'react';
 import BookList from "./BookList";
-import { useState } from "react";
 import Search from "./Search";
 
-const bookShelfs = ['Currently Reading', 'Want to Read', 'Read'];
+const bookShelfs = ['currentlyReading', 'wantToRead', 'read'];
 
 const App2 = () => {
 
     const [showSearchPage, setShowSearchPage] = useState(false);
-
     const handleSearchPage = () => setShowSearchPage(!showSearchPage);
+
+    const [books, setBooks] = useState([]);
+
+    const fetchAllBooks = async () => await getAll().then(allBooks => setBooks(allBooks));
+
+    const handleShelfChanger = (shelf, book) => {
+        console.log('book:', book)
+        const updateBook = async () => await update(book, shelf)
+        updateBook();
+    }
+
+    useEffect(() => fetchAllBooks(), [books]);
+
+    // console.log('books global:', books);
 
     return (
 
         <div className="app">
             {showSearchPage ? (
-                <Search handleSearchPage={handleSearchPage} />
+                <Search handleSearchPage={handleSearchPage} Books={books} />
             ) : (
                 <div className="list-books">
                     <div className="list-books-title">
@@ -25,7 +39,7 @@ const App2 = () => {
                         return <div key={bookShelf} className="bookshelf">
                             <div className="bookshelf-books">
                                 <h2 className="bookshelf-title">{bookShelf}</h2>
-                                <BookList bookShelf={bookShelf} />
+                                <BookList bookShelf={bookShelf} Books={books} handleShelfChanger={handleShelfChanger} />
                             </div>
                         </div>
                     })}

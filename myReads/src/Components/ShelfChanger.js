@@ -1,25 +1,26 @@
-import { useState, useEffect } from "react";
 
 const ShelfChanger = ({ Book, handleShelfChanger }) => {
 
-
     const changingBookShelf = (value) => {
-        handleShelfChanger(value, Book);
-    };
+       
+
+        
+        
+        handleShelfChanger(value, Book)};
 
     return (
         <div className="book-shelf-changer">
-            <select id="select" onChange={(event) => changingBookShelf(event.target.value)}>
+            <select defaultValue={Book.shelf} id="select" onChange={(event) => changingBookShelf(event.target.value)}>
 
-                <option value="none" disabled>
+                <option value="none"  disabled >
                     Move to...
                 </option>
-                <option value="currently reading">
+                <option value="currentlyReading" >
                     currently reading
                 </option>
-                <option value="want to read">want to read</option>
-                <option value="read">Read</option>
-                <option value="none">None</option>
+                <option value="wantToRead" >want to read</option>
+                <option value="read" >read</option>
+
             </select>
         </div>
     );
