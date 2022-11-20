@@ -37,7 +37,7 @@ const BookList = ({ bookShelf }) => {
        fetchAllBooks();
     }, []);
 
-    console.log('books global:', books);
+    // console.log('books global:', books);
 
     // We need to filter the books with specified bookShelf then map the books
     return (

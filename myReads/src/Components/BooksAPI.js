@@ -10,26 +10,31 @@ const headers = {
 };
 
 export const get = (bookId) =>
-  fetch(`${api}/books/${bookId}`, { headers })
+  fetch(`${api}/books/${bookId}`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json',
+    }
+  })
     .then((res) => res.json())
     .then((data) => data.book);
 
 export const getAll = () =>
-  fetch(`${api}/books`, { headers })
+  fetch(`${api}/books`, {
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json',
+    }
+  })
     .then((res) => res.json())
-    .then((data) => {
-      // consoling the returned data:
-      // IT IS EMPTY!!
-      console.log('data.books:', data.books)
-      return data.books
-    });
+    .then((data) => data.books);
 
 export const update = (book, shelf) =>
   fetch(`${api}/books/${book.id}`, {
     method: "PUT",
     headers: {
       ...headers,
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ shelf }),
   }).then((res) => res.json());
@@ -45,5 +50,6 @@ export const search = (query, maxResults) =>
   })
     .then((res) => res.json())
     .then((data) => {
-      console.log('data.books (search):',data.books)
-     return data.books});
+      console.log('data.books (search):', data.books)
+      return data.books
+    });

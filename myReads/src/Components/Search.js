@@ -9,11 +9,10 @@ const Search = ({ handleSearchPage }) => {
 
     const handleSearch = (value) => {
         const searchBook = async () => await search(value, 20)
-        .then(books => setSearchedBooks(books))
-        .catch(err => console.log(err))
+            .then(books => books !== undefined || setSearchedBooks(books))
+            .catch(err => console.log(err))
         searchBook();
     }
-
 
     return (
         <div className="search-books">
@@ -29,9 +28,11 @@ const Search = ({ handleSearchPage }) => {
             </div>
             <div className="search-books-results">
                 <ol className="books-grid">
-                {searchedBooks !== undefined|| searchedBooks.map(book => {
-                    return <li key={book.id}><Book Book={book} /> </li>
-                })}
+                    {console.log('searchedBooks:', searchedBooks)}
+                    {searchedBooks === undefined || searchedBooks.error === 'empty query' ? <h1>No Books found</h1> :
+                        searchedBooks.map(book => {
+                            return <li key={book.id}><Book Book={book} /> </li>
+                        })}
                 </ol>
             </div>
         </div>
