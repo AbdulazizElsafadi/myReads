@@ -12,15 +12,15 @@ const Book = ({ Book, handleShelfChanger, books }) => {
                         width: 128,
                         height: 193,
                         backgroundImage:
-                            `url(${Book.imageLinks.thumbnail})`,
+                            `url(${Book.imageLinks ? Book.imageLinks.thumbnail : 'none'})`,
                     }}
 
                 ></div>
-                <ShelfChanger Book={Book} handleShelfChanger={handleShelfChanger} Books={books}/>
+                <ShelfChanger Book={Book} handleShelfChanger={handleShelfChanger} Books={books} />
             </div>
             <div className="book-title">{Book.title}</div>
 
-            {Book.authors.map(author =>
+            {Book.authors && Book.authors.map(author =>
                 <div key={author} className="book-authors">{author}</div>)}
 
         </div>

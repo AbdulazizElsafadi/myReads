@@ -8,16 +8,21 @@ const Search = ({ handleSearchPage, Books }) => {
     const [searchedBooks, setSearchedBooks] = useState([]);
 
     const handleSearch = (value) => {
-        const searchBook = async () => await search(value, 20)
-            .then(books => setSearchedBooks(books))
-            .then(assignShelf())
-            .then(console.log('searchedBooks11111:',searchedBooks))
-            .catch(err => console.log(err))
-        searchBook();
+        console.log('value:', value)
+        if (value) {
+            const searchBook = () => search(value, 30)
+                .then(books => setSearchedBooks(books))
+                .then(assignShelf)
+                .catch(err => console.log(err))
+            searchBook();
+        }
     }
 
+
     const assignShelf = () => {
+        console.log('we are in assignShelf')
         searchedBooks.map(searchedBook => {
+            console.log('searchedBook.shelf:', searchedBook.shelf)
             if (!searchedBook.shelf) {
                 Books.map(book => {
                     if (book.id === searchedBook.id) {
@@ -25,7 +30,7 @@ const Search = ({ handleSearchPage, Books }) => {
                         console.log('book that exist:', searchedBook)
                     } else {
                         searchedBook.shelf = 'none';
-                        console.log('book that doesnt exist:', searchedBook)
+                        console.log(`book that doesn't exist:`, searchedBook)
                     }
 
                 })
@@ -48,8 +53,9 @@ const Search = ({ handleSearchPage, Books }) => {
             <div className="search-books-results">
                 <ol className="books-grid">
                     {/* {console.log('type of searchedBooks:', searchedBooks)} */}
-                    {searchedBooks === undefined || searchedBooks.error === 'empty query' ? <h1>No Books found</h1> :
+                    {searchedBooks.length === undefined || searchedBooks.error === 'empty query' ? <h1>No Books found</h1> :
                         searchedBooks.map(book => {
+                            // console.log(`${book.title}: imageLink: ${JSON.stringify(book.imageLinks)}`)
                             return <li key={book.id}><Book Book={book} /> </li>
                         })}
                 </ol>

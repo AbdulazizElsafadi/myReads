@@ -20,9 +20,9 @@ const App2 = () => {
         updateBook();
     }
 
-    useEffect(() => getAll().then(allBooks =>{
-        console.log('allBooks:',allBooks)
-        setBooks(allBooks)}), [books]);
+    // I am adding the books dependency because I want the page to refresh when a user updates
+    // a shelf of a book
+    useEffect(() => getAll().then(allBooks => setBooks(allBooks)), [books]);
 
     // console.log('books global:', books);
 

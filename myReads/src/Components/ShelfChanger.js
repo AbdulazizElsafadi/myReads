@@ -1,12 +1,7 @@
 
 const ShelfChanger = ({ Book, handleShelfChanger }) => {
 
-    const changingBookShelf = (value) => {
-       
-
-        
-        
-        handleShelfChanger(value, Book)};
+    const changingBookShelf = (value) => handleShelfChanger(value, Book);
 
     return (
         <div className="book-shelf-changer">
@@ -20,6 +15,7 @@ const ShelfChanger = ({ Book, handleShelfChanger }) => {
                 </option>
                 <option value="wantToRead" >want to read</option>
                 <option value="read" >read</option>
+                <option value="none" >none</option>
 
             </select>
         </div>
