@@ -13,7 +13,6 @@ const App2 = () => {
 
     const [books, setBooks] = useState([]);
 
-    const fetchAllBooks = async () => await getAll().then(allBooks => setBooks(allBooks));
 
     const handleShelfChanger = (shelf, book) => {
         console.log('book:', book)
@@ -21,12 +20,13 @@ const App2 = () => {
         updateBook();
     }
 
-    useEffect(() => fetchAllBooks(), [books]);
+    useEffect(() => getAll().then(allBooks =>{
+        console.log('allBooks:',allBooks)
+        setBooks(allBooks)}), [books]);
 
     // console.log('books global:', books);
 
     return (
-
         <div className="app">
             {showSearchPage ? (
                 <Search handleSearchPage={handleSearchPage} Books={books} />

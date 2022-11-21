@@ -9,27 +9,29 @@ const Search = ({ handleSearchPage, Books }) => {
 
     const handleSearch = (value) => {
         const searchBook = async () => await search(value, 20)
-            .then(books => setSearchedBooks(books)) // .then(assignShelf())
+            .then(books => setSearchedBooks(books))
+            .then(assignShelf())
+            .then(console.log('searchedBooks11111:',searchedBooks))
             .catch(err => console.log(err))
         searchBook();
     }
 
-    // const assignShelf = () => {
-    //     searchedBooks.map(searchedBook => {
-    //         Books.map(book => {
-    //             if (book.id === searchedBook.id) {
-    //                 Object.defineProperty(Book, 'shelf', {
-    //                     value: book.shelf
-    //                 })
-    //             } else {
-    //                 Object.defineProperty(Book, 'shelf', {
-    //                     value: 'none'
-    //                 })
-    //             }
+    const assignShelf = () => {
+        searchedBooks.map(searchedBook => {
+            if (!searchedBook.shelf) {
+                Books.map(book => {
+                    if (book.id === searchedBook.id) {
+                        searchedBook.shelf = book.shelf
+                        console.log('book that exist:', searchedBook)
+                    } else {
+                        searchedBook.shelf = 'none';
+                        console.log('book that doesnt exist:', searchedBook)
+                    }
 
-    //         })
-    //     })
-    // }
+                })
+            }
+        })
+    }
 
     return (
         <div className="search-books">
