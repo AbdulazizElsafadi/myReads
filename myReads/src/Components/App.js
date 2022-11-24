@@ -1,12 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import "../App.css";
 import { getAll, update } from './BooksAPI'
 import { useEffect, useState } from 'react';
+import { Route, Routes } from 'react-router-dom'
 import BookList from "./BookList";
 import Search from "./Search";
 
 const bookShelfs = ['currentlyReading', 'wantToRead', 'read'];
 
-const App2 = () => {
+const App = () => {
 
     const [showSearchPage, setShowSearchPage] = useState(false);
     const handleSearchPage = () => setShowSearchPage(!showSearchPage);
@@ -15,7 +17,7 @@ const App2 = () => {
 
 
     const handleShelfChanger = (shelf, book) => {
-        console.log('book:', book)
+        // console.log('book:', book)
         const updateBook = async () => await update(book, shelf)
         updateBook();
     }
@@ -27,9 +29,14 @@ const App2 = () => {
     // console.log('books global:', books);
 
     return (
+
         <div className="app">
             {showSearchPage ? (
-                <Search handleSearchPage={handleSearchPage} Books={books} />
+                <Routes>
+                    <Route path='search' element={
+                        <Search handleSearchPage={handleSearchPage} Books={books} handleShelfChanger={handleShelfChanger} />
+                    } />
+                </Routes>
             ) : (
                 <div className="list-books">
                     <div className="list-books-title">
@@ -39,7 +46,11 @@ const App2 = () => {
                         return <div key={bookShelf} className="bookshelf">
                             <div className="bookshelf-books">
                                 <h2 className="bookshelf-title">{bookShelf}</h2>
-                                <BookList bookShelf={bookShelf} Books={books} handleShelfChanger={handleShelfChanger} />
+                                <Routes>
+                                    <Route path='*' element={
+                                        <BookList bookShelf={bookShelf} Books={books} handleShelfChanger={handleShelfChanger} />
+                                    } />
+                                </Routes>
                             </div>
                         </div>
                     })}
@@ -56,4 +67,4 @@ const App2 = () => {
     );
 }
 
-export default App2;
+export default App;

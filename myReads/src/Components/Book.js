@@ -1,9 +1,11 @@
 import ShelfChanger from "./ShelfChanger";
+import { Route, Routes } from 'react-router-dom'
 
 // This functional component renders a book...
 const Book = ({ Book, handleShelfChanger, books }) => {
 
     return (
+
         <div className="book">
             <div className="book-top">
                 <div
@@ -16,7 +18,10 @@ const Book = ({ Book, handleShelfChanger, books }) => {
                     }}
 
                 ></div>
-                <ShelfChanger Book={Book} handleShelfChanger={handleShelfChanger} Books={books} />
+                <Routes>
+                    <Route path='/ShelfChanger' element={
+                        <ShelfChanger Book={Book} handleShelfChanger={handleShelfChanger} Books={books} />
+                    } /></Routes>
             </div>
             <div className="book-title">{Book.title}</div>
 
@@ -24,7 +29,6 @@ const Book = ({ Book, handleShelfChanger, books }) => {
                 <div key={author} className="book-authors">{author}</div>)}
 
         </div>
-
     );
 };
 

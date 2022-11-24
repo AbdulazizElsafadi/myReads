@@ -1,44 +1,55 @@
 import { useState } from "react";
 import { search } from "./BooksAPI";
 import Book from "./Book";
+import { Route, Routes } from 'react-router-dom'
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
-const Search = ({ handleSearchPage, Books }) => {
+const Search = ({ handleSearchPage, Books, handleShelfChanger }) => {
 
     const [searchedBooks, setSearchedBooks] = useState([]);
 
     const handleSearch = (value) => {
-        console.log('value:', value)
+        // console.log('value:', value)
         if (value) {
-            const searchBook = () => search(value, 30)
-                .then(books => setSearchedBooks(books))
-                .then(assignShelf)
+            const searchBook = () => search(value, 50)
+                .then(books => {
+                    assignShelf(books)
+                    setSearchedBooks(books)
+                })
                 .catch(err => console.log(err))
             searchBook();
         }
+
+        else {
+            console.log('we are in the else')
+            setSearchedBooks([])
+        }
     }
 
+    // console.log('Books in search:',Books)
 
-    const assignShelf = () => {
-        console.log('we are in assignShelf')
-        searchedBooks.map(searchedBook => {
-            console.log('searchedBook.shelf:', searchedBook.shelf)
-            if (!searchedBook.shelf) {
+    const assignShelf = (searchedBooks) => {
+        // console.log('we are in assignShelf first')
+        // console.log('searchedBooks in assignShelf:', searchedBooks)
+        if (!searchedBooks.error) {
+            searchedBooks.map(searchedBook => {
                 Books.map(book => {
+                    // console.log('we are looping in the books')
                     if (book.id === searchedBook.id) {
                         searchedBook.shelf = book.shelf
-                        console.log('book that exist:', searchedBook)
-                    } else {
-                        searchedBook.shelf = 'none';
-                        console.log(`book that doesn't exist:`, searchedBook)
+                        // console.log('***** book that exist: *****', searchedBook)
                     }
-
                 })
-            }
-        })
+                if (!searchedBook.shelf) {
+                    searchedBook.shelf = 'none';
+                    // console.log(`book that doesn't exist:`, searchedBook)
+                }
+            })
+        }
     }
 
     return (
+
         <div className="search-books">
             <div className="search-books-bar">
                 <a className="close-search" onClick={() => { handleSearchPage() }}> Close </a>
@@ -55,8 +66,13 @@ const Search = ({ handleSearchPage, Books }) => {
                     {/* {console.log('type of searchedBooks:', searchedBooks)} */}
                     {searchedBooks.length === undefined || searchedBooks.error === 'empty query' ? <h1>No Books found</h1> :
                         searchedBooks.map(book => {
-                            // console.log(`${book.title}: imageLink: ${JSON.stringify(book.imageLinks)}`)
-                            return <li key={book.id}><Book Book={book} /> </li>
+                            return <li key={book.id}>
+                                <Routes>
+                                    <Route path='/Book' element={
+                                        <Book Book={book} handleShelfChanger={handleShelfChanger}
+                                        />}
+                                    /></Routes>
+                            </li>
                         })}
                 </ol>
             </div>
