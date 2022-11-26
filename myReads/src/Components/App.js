@@ -15,7 +15,6 @@ const App = () => {
 
     const [books, setBooks] = useState([]);
 
-
     const handleShelfChanger = (shelf, book) => {
         // console.log('book:', book)
         const updateBook = async () => await update(book, shelf)
@@ -26,21 +25,32 @@ const App = () => {
     // a shelf of a book
     useEffect(() => getAll().then(allBooks => setBooks(allBooks)), [books]);
 
-    // console.log('books global:', books);
+    console.log('books global:', books);
 
     return (
         <>
             <Routes>
-                <Route exact path='/' element={
-                    <BookList bookShelf={bookShelf}
+                {/* I am looping here because BookList takes booShelf as a prop
+                 and props have to passed in the Route */}
+                {bookShelfs.map(bookShelf => {
+                    return <Route key={bookShelf} exact path='/' element={
+                        <BookList 
+                            bookShelf={bookShelf}
+                            Books={books}
+                            handleShelfChanger={handleShelfChanger} />
+
+                    } />
+                })}
+
+
+                <Route path='search' element={
+                    <Search
+                        handleSearchPage={handleSearchPage}
                         Books={books}
                         handleShelfChanger={handleShelfChanger} />
                 } />
-                <Route path='/search' element={
-                    <Search handleSearchPage={handleSearchPage}
-                        Books={books}
-                        handleShelfChanger={handleShelfChanger} />
-                } />
+
+                <Route path="*" element={<h1>The page wasn't found</h1>} />
             </Routes>
 
             <div className="app">
@@ -53,7 +63,8 @@ const App = () => {
                             <div key={bookShelf} className="bookshelf">
                                 <div className="bookshelf-books">
                                     <h2 className="bookshelf-title">{bookShelf}</h2>
-                                    <BookList bookShelf={bookShelf} />
+                                    {/* rendering BookList. All props are passed in the Route */}
+                                    <BookList />
                                 </div>
                             </div>
                         )

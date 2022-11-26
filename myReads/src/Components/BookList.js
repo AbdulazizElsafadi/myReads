@@ -5,23 +5,33 @@ import { Route, Routes } from 'react-router-dom'
 
 const BookList = ({ bookShelf, Books, handleShelfChanger }) => {
 
+    console.log('Books in BookList:', Books)
+    console.log('bookShelf in BookList:', bookShelf)
+    console.log('handleShelfChanger in BookList:', handleShelfChanger)
+
+
     // Filter the books with specified bookShelf then map the books
     return (
         <>
             <ul className="books-grid">
-                {console.log('Books in BookList',Books)}
-                {Books.filter(book => book.shelf === bookShelf).map(book => {
+
+                {Book || Books.filter(book => book.shelf === bookShelf).map(book => {
                     return <li key={book.id}>
-                        <Book
-                            Book={book}
-                            handleShelfChanger={handleShelfChanger}
-                            Books={Books}
-                        />
+                        <Book />
                     </li>
                 })}
             </ul>
             <Routes>
-                <Route path='/Book' element={<Book />} />
+                <Route path='/Book' element={
+                    Books.filter(book => book.shelf === bookShelf).map(book => {
+                        return <Book
+                            Book={book}
+                            handleShelfChanger={handleShelfChanger}
+                            Books={Books} />
+                    }
+                    )}
+                />
+
             </Routes>
         </>
     );

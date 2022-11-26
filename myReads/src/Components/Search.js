@@ -21,7 +21,7 @@ const Search = ({ handleSearchPage, Books, handleShelfChanger }) => {
         }
 
         else {
-            console.log('we are in the else')
+            // console.log('we are in the else')
             setSearchedBooks([])
         }
     }
@@ -67,7 +67,7 @@ const Search = ({ handleSearchPage, Books, handleShelfChanger }) => {
                         {searchedBooks.length === undefined || searchedBooks.error === 'empty query' ? <h1>No Books found</h1> :
                             searchedBooks.map(book => {
                                 return <li key={book.id}>
-                                    <Book Book={book} handleShelfChanger={handleShelfChanger} />
+                                    <Book />
                                 </li>
                             })}
                     </ol>
@@ -75,7 +75,12 @@ const Search = ({ handleSearchPage, Books, handleShelfChanger }) => {
             </div>
 
             <Routes>
-                <Route path='/Book' element={<Book />} />
+                <Route path='/Book' element={
+                    searchedBooks.map(book => {
+                        return <Book Book={book} handleShelfChanger={handleShelfChanger} />
+                    })
+                }
+                />
             </Routes>
         </>
     );

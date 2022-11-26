@@ -18,7 +18,7 @@ const Book = ({ Book, handleShelfChanger, books }) => {
                         }}
 
                     ></div>
-                    <ShelfChanger Book={Book} handleShelfChanger={handleShelfChanger} Books={books}/>
+                    <ShelfChanger />
                 </div>
                 <div className="book-title">{Book.title}</div>
 
@@ -28,8 +28,9 @@ const Book = ({ Book, handleShelfChanger, books }) => {
             </div>
             <Routes>
                 <Route path='/ShelfChanger' element={
-                    <ShelfChanger  />
-                } /></Routes>
+                    <ShelfChanger Book={Book} handleShelfChanger={handleShelfChanger} Books={books} />
+                } />
+            </Routes>
         </>
     );
 };
