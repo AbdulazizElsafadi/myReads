@@ -49,34 +49,35 @@ const Search = ({ handleSearchPage, Books, handleShelfChanger }) => {
     }
 
     return (
-
-        <div className="search-books">
-            <div className="search-books-bar">
-                <a className="close-search" onClick={() => { handleSearchPage() }}> Close </a>
-                <div className="search-books-input-wrapper">
-                    <input
-                        type="text"
-                        placeholder="Search by title, author, or ISBN"
-                        onChange={(event) => handleSearch(event.target.value)}
-                    />
+        <>
+            <div className="search-books">
+                <div className="search-books-bar">
+                    <a className="close-search" onClick={() => { handleSearchPage() }}> Close </a>
+                    <div className="search-books-input-wrapper">
+                        <input
+                            type="text"
+                            placeholder="Search by title, author, or ISBN"
+                            onChange={(event) => handleSearch(event.target.value)}
+                        />
+                    </div>
+                </div>
+                <div className="search-books-results">
+                    <ol className="books-grid">
+                        {/* {console.log('type of searchedBooks:', searchedBooks)} */}
+                        {searchedBooks.length === undefined || searchedBooks.error === 'empty query' ? <h1>No Books found</h1> :
+                            searchedBooks.map(book => {
+                                return <li key={book.id}>
+                                    <Book Book={book} handleShelfChanger={handleShelfChanger} />
+                                </li>
+                            })}
+                    </ol>
                 </div>
             </div>
-            <div className="search-books-results">
-                <ol className="books-grid">
-                    {/* {console.log('type of searchedBooks:', searchedBooks)} */}
-                    {searchedBooks.length === undefined || searchedBooks.error === 'empty query' ? <h1>No Books found</h1> :
-                        searchedBooks.map(book => {
-                            return <li key={book.id}>
-                                <Routes>
-                                    <Route path='/Book' element={
-                                        <Book Book={book} handleShelfChanger={handleShelfChanger}
-                                        />}
-                                    /></Routes>
-                            </li>
-                        })}
-                </ol>
-            </div>
-        </div>
+
+            <Routes>
+                <Route path='/Book' element={<Book />} />
+            </Routes>
+        </>
     );
 }
 

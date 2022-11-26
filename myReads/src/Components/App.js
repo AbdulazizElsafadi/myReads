@@ -2,7 +2,7 @@
 import "../App.css";
 import { getAll, update } from './BooksAPI'
 import { useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom'
+import { Link, Route, Routes } from 'react-router-dom'
 import BookList from "./BookList";
 import Search from "./Search";
 
@@ -29,41 +29,42 @@ const App = () => {
     // console.log('books global:', books);
 
     return (
+        <>
+            <Routes>
+                <Route exact path='/' element={
+                    <BookList bookShelf={bookShelf}
+                        Books={books}
+                        handleShelfChanger={handleShelfChanger} />
+                } />
+                <Route path='/search' element={
+                    <Search handleSearchPage={handleSearchPage}
+                        Books={books}
+                        handleShelfChanger={handleShelfChanger} />
+                } />
+            </Routes>
 
-        <div className="app">
-            {showSearchPage ? (
-                <Routes>
-                    <Route path='search' element={
-                        <Search handleSearchPage={handleSearchPage} Books={books} handleShelfChanger={handleShelfChanger} />
-                    } />
-                </Routes>
-            ) : (
+            <div className="app">
                 <div className="list-books">
                     <div className="list-books-title">
                         <h1>MyReads</h1>
                     </div>
                     {bookShelfs.map(bookShelf => {
-                        return <div key={bookShelf} className="bookshelf">
-                            <div className="bookshelf-books">
-                                <h2 className="bookshelf-title">{bookShelf}</h2>
-                                <Routes>
-                                    <Route path='*' element={
-                                        <BookList bookShelf={bookShelf} Books={books} handleShelfChanger={handleShelfChanger} />
-                                    } />
-                                </Routes>
+                        return (
+                            <div key={bookShelf} className="bookshelf">
+                                <div className="bookshelf-books">
+                                    <h2 className="bookshelf-title">{bookShelf}</h2>
+                                    <BookList bookShelf={bookShelf} />
+                                </div>
                             </div>
-                        </div>
+                        )
                     })}
 
                     <div className="open-search">
-                        <a onClick={() => setShowSearchPage(!showSearchPage)}>Add a book</a>
+                        <Link to='/search' onClick={() => setShowSearchPage(!showSearchPage)}>Add a book</Link>
                     </div>
-
                 </div>
-
-            )}
-
-        </div>
+            </div>
+        </>
     );
 }
 
