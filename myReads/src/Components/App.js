@@ -2,16 +2,21 @@
 import "../App.css";
 import { getAll, update } from './BooksAPI'
 import { useEffect, useState } from 'react';
-import { Link, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import BookList from "./BookList";
 import Search from "./Search";
 
-const bookShelfs = ['currentlyReading', 'wantToRead', 'read'];
+const bookShelfs = [
+    { title: 'Read', key: 'read' },
+    { title: 'Want To Read', key: 'wantToRead' },
+    { title: 'Currently Reading', key: 'currentlyReading' }
+
+];
 
 const App = () => {
 
-    const [showSearchPage, setShowSearchPage] = useState(false);
-    const handleSearchPage = () => setShowSearchPage(!showSearchPage);
+    // const [showSearchPage, setShowSearchPage] = useState(false);
+    // const handleSearchPage = () => setShowSearchPage(!showSearchPage);
 
     const [books, setBooks] = useState([]);
 
@@ -23,59 +28,27 @@ const App = () => {
 
     // I am adding the books dependency because I want the page to refresh when a user updates
     // a shelf of a book
-    useEffect(() => getAll().then(allBooks => setBooks(allBooks)), [books]);
+    useEffect(() => getAll().then(allBooks => setBooks(allBooks)), []);
 
-    console.log('books global:', books);
-
+    // console.log('books global:', books);
     return (
-        <>
-            <Routes>
-                {/* I am looping here because BookList takes booShelf as a prop
-                 and props have to passed in the Route */}
-                {bookShelfs.map(bookShelf => {
-                    return <Route key={bookShelf} exact path='/' element={
-                        <BookList 
-                            bookShelf={bookShelf}
-                            Books={books}
-                            handleShelfChanger={handleShelfChanger} />
+        <Routes>
+            <Route exact path='/' element={
+                <BookList
+                    bookShelfs={bookShelfs}
+                    Books={books}
+                    handleShelfChanger={handleShelfChanger} />
 
-                    } />
-                })}
+            } />
+            <Route path='search' element={
+                <Search
+                    // handleSearchPage={handleSearchPage}
+                    Books={books}
+                    handleShelfChanger={handleShelfChanger} />
+            } />
 
-
-                <Route path='search' element={
-                    <Search
-                        handleSearchPage={handleSearchPage}
-                        Books={books}
-                        handleShelfChanger={handleShelfChanger} />
-                } />
-
-                <Route path="*" element={<h1>The page wasn't found</h1>} />
-            </Routes>
-
-            <div className="app">
-                <div className="list-books">
-                    <div className="list-books-title">
-                        <h1>MyReads</h1>
-                    </div>
-                    {bookShelfs.map(bookShelf => {
-                        return (
-                            <div key={bookShelf} className="bookshelf">
-                                <div className="bookshelf-books">
-                                    <h2 className="bookshelf-title">{bookShelf}</h2>
-                                    {/* rendering BookList. All props are passed in the Route */}
-                                    <BookList />
-                                </div>
-                            </div>
-                        )
-                    })}
-
-                    <div className="open-search">
-                        <Link to='/search' onClick={() => setShowSearchPage(!showSearchPage)}>Add a book</Link>
-                    </div>
-                </div>
-            </div>
-        </>
+            <Route path="*" element={<h1>The page wasn't found</h1>} />
+        </Routes>
     );
 }
 

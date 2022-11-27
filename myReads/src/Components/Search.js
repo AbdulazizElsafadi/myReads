@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { search } from "./BooksAPI";
 import Book from "./Book";
-import { Route, Routes } from 'react-router-dom'
+import { Link, Route, Routes } from 'react-router-dom'
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 const Search = ({ handleSearchPage, Books, handleShelfChanger }) => {
@@ -52,7 +52,7 @@ const Search = ({ handleSearchPage, Books, handleShelfChanger }) => {
         <>
             <div className="search-books">
                 <div className="search-books-bar">
-                    <a className="close-search" onClick={() => { handleSearchPage() }}> Close </a>
+                    <Link className="close-search" to='/'> Close </Link>
                     <div className="search-books-input-wrapper">
                         <input
                             type="text"
