@@ -1,10 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import "../App.css";
-import { getAll, update } from './BooksAPI'
+import "./App.css";
+import { getAll, update } from './Components/BooksAPI'
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom'
-import Home from "./Home";
-import Search from "./Search";
+import Home from "./Components/Home";
+import Search from "./Components/Search";
 
 const bookShelfs = [
     { title: 'Currently Reading', key: 'currentlyReading' },
