@@ -3,38 +3,30 @@ import "../App.css";
 import { getAll, update } from './BooksAPI'
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom'
-import BookList from "./BookList";
+import Home from "./Home";
 import Search from "./Search";
 
 const bookShelfs = [
-    { title: 'Read', key: 'read' },
+    { title: 'Currently Reading', key: 'currentlyReading' },
     { title: 'Want To Read', key: 'wantToRead' },
-    { title: 'Currently Reading', key: 'currentlyReading' }
-
+    { title: 'Read', key: 'read' }
 ];
 
 const App = () => {
 
-    // const [showSearchPage, setShowSearchPage] = useState(false);
-    // const handleSearchPage = () => setShowSearchPage(!showSearchPage);
-
     const [books, setBooks] = useState([]);
 
+    useEffect(() => getAll().then(allBooks => setBooks(allBooks)));
+
     const handleShelfChanger = (shelf, book) => {
-        // console.log('book:', book)
         const updateBook = async () => await update(book, shelf)
         updateBook();
     }
 
-    // I am adding the books dependency because I want the page to refresh when a user updates
-    // a shelf of a book
-    useEffect(() => getAll().then(allBooks => setBooks(allBooks)), []);
-
-    // console.log('books global:', books);
     return (
         <Routes>
             <Route exact path='/' element={
-                <BookList
+                <Home
                     bookShelfs={bookShelfs}
                     Books={books}
                     handleShelfChanger={handleShelfChanger} />
@@ -51,5 +43,4 @@ const App = () => {
         </Routes>
     );
 }
-
 export default App;

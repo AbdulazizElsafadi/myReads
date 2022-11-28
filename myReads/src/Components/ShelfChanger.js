@@ -1,27 +1,23 @@
-
-const ShelfChanger = ({ Books, handleShelfChanger }) => {
+const ShelfChanger = ({ Book, handleShelfChanger }) => {
 
     const changingBookShelf = (value, Book) => handleShelfChanger(value, Book);
 
     return (
+        <div className="book-shelf-changer">
+            <select defaultValue={Book.shelf} id="select" onChange={(event) => changingBookShelf(event.target.value, Book)}>
 
-        Books.map(Book => {
-           return <div className="book-shelf-changer">
-                <select defaultValue={Book.shelf} id="select" onChange={(event) => changingBookShelf(event.target.value, Book)}>
+                <option value="none" disabled >
+                    Move to...
+                </option>
+                <option value="currentlyReading" >
+                    currently reading
+                </option>
+                <option value="wantToRead" >want to read</option>
+                <option value="read" >read</option>
+                <option value="none" >none</option>
 
-                    <option value="none" disabled >
-                        Move to...
-                    </option>
-                    <option value="currentlyReading" >
-                        currently reading
-                    </option>
-                    <option value="wantToRead" >want to read</option>
-                    <option value="read" >read</option>
-                    <option value="none" >none</option>
-
-                </select>
-            </div>
-        })
+            </select>
+        </div>
     );
 };
 

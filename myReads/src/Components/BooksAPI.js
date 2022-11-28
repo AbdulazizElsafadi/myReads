@@ -27,9 +27,7 @@ export const getAll = () =>
     }
   })
     .then((res) => res.json())
-    .then((data) =>{
-      console.log('data.books (getAll):', data.books)
-      return data.books});
+    .then((data) => data.books);
 
 export const update = (book, shelf) =>
   fetch(`${api}/books/${book.id}`, {
