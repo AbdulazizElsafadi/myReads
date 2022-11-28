@@ -24,11 +24,13 @@ const Search = ({ Books, handleShelfChanger }) => {
         if (!searchedBooks.error) {
             searchedBooks.map(searchedBook => {
                 Books.map(book => {
-                    if (book.id === searchedBook.id)
+                    if (book.id === searchedBook.id) {
                         searchedBook.shelf = book.shelf
+                    }
                 })
-                if (!searchedBook.shelf)
+                if (!searchedBook.shelf) {
                     searchedBook.shelf = 'none';
+                }
             })
         }
     }
