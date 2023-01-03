@@ -13,8 +13,8 @@ export const get = (bookId) =>
   fetch(`${api}/books/${bookId}`, {
     headers: {
       ...headers,
-      'Content-Type': 'application/json',
-    }
+      "Content-Type": "application/json",
+    },
   })
     .then((res) => res.json())
     .then((data) => data.book);
@@ -23,8 +23,8 @@ export const getAll = () =>
   fetch(`${api}/books`, {
     headers: {
       ...headers,
-      'Content-Type': 'application/json',
-    }
+      "Content-Type": "application/json",
+    },
   })
     .then((res) => res.json())
     .then((data) => data.books);
@@ -34,7 +34,7 @@ export const update = (book, shelf) =>
     method: "PUT",
     headers: {
       ...headers,
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ shelf }),
   }).then((res) => res.json());
